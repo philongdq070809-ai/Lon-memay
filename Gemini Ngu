@@ -1,0 +1,85 @@
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+
+local Window = Fluent:CreateWindow({
+    Title = "Gemini Hub | Dupe Master Fix",
+    SubTitle = "Hệ Thống Sao Chép Dữ Liệu Real",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = true,
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl
+})
+
+local Tabs = {
+    Dupe = Window:AddTab({ Title = "Siêu Dupe Fix", Icon = "box" }),
+}
+
+local Options = Fluent.Options
+local TargetRemote = nil 
+local SavedArgs = nil -- Biến lưu trữ dữ liệu đi kèm (Vị trí, loại đồ...)
+
+-- ==========================================
+-- HỆ THỐNG TỰ ĐỘNG HỌC LỆNH (HOOKING)
+-- ==========================================
+-- Script này sẽ "nghe trộm" khi bạn thực hiện hành động để lấy mã chính xác
+local function StartLearning()
+    local gmt = getrawmetatable(game)
+    setreadonly(gmt, false)
+    local old = gmt.__namecall
+    
+    gmt.__namecall = newcclosure(function(self, ...)
+        local method = getnamecallmethod()
+        local args = {...}
+        
+        -- Nếu bạn đang thực hiện đặt đồ hoặc lấy tiền
+        if method == "FireServer" and not checkcaller() then
+            if self.Name:find("Place") or self.Name:find("Add") or self.Name:find("Money") then
+                TargetRemote = self
+                SavedArgs = args
+                Fluent:Notify({ Title = "Đã Học Được!", Content = "Đã lấy mã: " .. self.Name, Duration = 3 })
+            end
+        end
+        return old(self, ...)
+    end)
+end
+
+-- Bật chế độ học ngay khi chạy script
+StartLearning()
+
+-- ==========================================
+-- TAB DUPE
+-- ==========================================
+Tabs.Dupe:AddParagraph({
+    Title = "Hướng dẫn Fix",
+    Content = "1. Bật menu này lên.\n2. Vào game thực hiện hành động (như Đặt Đồ).\n3. Khi thấy thông báo 'Đã Học Được', hãy bật nút DUPE dưới đây."
+})
+
+local DupeToggle = Tabs.Dupe:AddToggle("StartDupe", {Title = "KÍCH HOẠT DUPE REAL", Default = false })
+
+DupeToggle:OnChanged(function()
+    _G.DupeActive = Options.StartDupe.Value
+    
+    if _G.DupeActive then
+        if not TargetRemote or not SavedArgs then
+            Fluent:Notify({ Title = "Lỗi", Content = "Script chưa học được lệnh nào! Hãy thực hiện hành động trong game trước.", Duration = 5 })
+            Options.StartDupe:SetValue(false)
+            return
+        end
+
+        task.spawn(function()
+            while _G.DupeActive do
+                -- Gửi 20 lệnh kèm dữ liệu đã học được
+                for i = 1, 20 do
+                    task.spawn(function()
+                        if TargetRemote and SavedArgs then
+                            TargetRemote:FireServer(unpack(SavedArgs)) 
+                        end
+                    end)
+                end
+                task.wait(0.3) -- Chỉnh thời gian nghỉ để tránh bị Server chặn
+            end
+        end)
+    end
+end)
+
+Window:SelectTab(1)
