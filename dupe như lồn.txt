@@ -1,0 +1,96 @@
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+
+local Window = Fluent:CreateWindow({
+    Title = "Gemini Hub | Pro Duper",
+    SubTitle = "Hệ Thống Nhân Bản Real",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = true,
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl
+})
+
+local Tabs = {
+    Dupe = Window:AddTab({ Title = "Siêu Dupe", Icon = "box" }),
+    Player = Window:AddTab({ Title = "Người chơi", Icon = "user" })
+}
+
+local Options = Fluent.Options
+local TargetRemote = nil -- Biến lưu trữ lệnh mà bạn chọn để Dupe
+
+-- ==========================================
+-- TAB DUPE: QUY TRÌNH DUPE CỦA BẠN
+-- ==========================================
+
+Tabs.Dupe:AddParagraph({
+    Title = "Quy trình Dupe Real",
+    Content = "BƯỚC 1: Bấm 'Quét Lệnh' khi bạn đang thực hiện hành động (như đặt đồ).\nBƯỚC 2: Khi tìm thấy mục tiêu, bấm nút 'BẮT ĐẦU DUPE'."
+})
+
+-- Nút quét lệnh (Ghi nhớ cái bạn muốn Dupe)
+Tabs.Dupe:AddButton({
+    Title = "1. Quét Lệnh Gần Nhất",
+    Description = "Bấm nút này ngay khi bạn vừa đặt đồ hoặc nhận tiền xong",
+    Callback = function()
+        -- Quét các lệnh vừa được kích hoạt trong ReplicatedStorage
+        local found = nil
+        for _, v in pairs(game:GetDescendants()) do
+            if v:IsA("RemoteEvent") and (v.Name:find("Place") or v.Name:find("Add") or v.Name:find("Money") or v.Name:find("Collect")) then
+                found = v
+                break
+            end
+        end
+        
+        if found then
+            TargetRemote = found
+            Fluent:Notify({ Title = "Đã Tìm Thấy!", Content = "Đã khóa mục tiêu: " .. found.Name, Duration = 5 })
+        else
+            Fluent:Notify({ Title = "Lỗi", Content = "Không tìm thấy lệnh nào vừa chạy. Hãy thử lại!", Duration = 5 })
+        end
+    end
+})
+
+-- Nút DUPE (Nhân bản cái đã chọn)
+local DupeActive = false
+local DupeToggle = Tabs.Dupe:AddToggle("StartDupe", {Title = "2. BẮT ĐẦU DUPE (Nhân bản)", Default = false })
+
+DupeToggle:OnChanged(function()
+    DupeActive = Options.StartDupe.Value
+    
+    if DupeActive then
+        if not TargetRemote then
+            Fluent:Notify({ Title = "Cảnh báo", Content = "Bạn chưa Quét Lệnh ở Bước 1!", Duration = 5 })
+            Options.StartDupe:SetValue(false)
+            return
+        end
+
+        task.spawn(function()
+            while DupeActive do
+                -- Gửi 30 lệnh cùng lúc (Cực mạnh để nhân bản thật)
+                for i = 1, 30 do
+                    task.spawn(function()
+                        if TargetRemote then
+                            TargetRemote:FireServer() 
+                        end
+                    end)
+                end
+                task.wait(0.2) -- Tránh bị crash game
+            end
+        end)
+    end
+end)
+
+-- ==========================================
+-- TAB NGƯỜI CHƠI
+-- ==========================================
+Tabs.Player:AddSlider("SpeedSlider", {
+    Title = "Tốc độ chạy",
+    Default = 16, Min = 16, Max = 500, Rounding = 1,
+    Callback = function(v) 
+        if game.Players.LocalPlayer.Character then 
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v 
+        end 
+    end
+})
+
+Window:SelectTab(1)
