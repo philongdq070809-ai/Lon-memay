@@ -1,0 +1,105 @@
+-- =========================================================
+-- GEMINI HUB - FULL DUPE EDITION (FLUENT UI)
+-- =========================================================
+
+-- 1. Tải thư viện Fluent và các Addon
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+
+-- 2. Tự động chạy SimpleSpy để bạn soi mã ngay lập tức
+task.spawn(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/78n/SimpleSpy/main/SimpleSpySource.lua"))()
+end)
+
+-- 3. Khởi tạo cửa sổ Menu
+local Window = Fluent:CreateWindow({
+    Title = "Gemini Hub | Full Dupe Brainrot",
+    SubTitle = "Version 1.0",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = true,
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl
+})
+
+-- 4. Tạo các Tab
+local Tabs = {
+    Dupe = Window:AddTab({ Title = "Hệ thống Dupe", Icon = "component" }),
+    Player = Window:AddTab({ Title = "Người chơi", Icon = "user" }),
+    Misc = Window:AddTab({ Title = "Tiện ích", Icon = "box" })
+}
+
+local Options = Fluent.Options
+
+-- ==========================================
+-- TAB DUPE: NƠI THỰC THI LỆNH NHÂN BẢN
+-- ==========================================
+Tabs.Dupe:AddParagraph({
+    Title = "HƯỚNG DẪN QUAN TRỌNG",
+    Content = "1. SimpleSpy đã mở sẵn.\n2. Bấm 'Lấy tiền/Đặt đồ' trong game.\n3. Copy mã từ SimpleSpy rồi dán vào code ở đoạn 'DÁN VÀO ĐÂY'.\n4. Bật Toggle để bắt đầu Dupe Real."
+})
+
+local DupeToggle = Tabs.Dupe:AddToggle("RealDupe", {Title = "Kích hoạt REAL DUPE (Multi-Fire)", Default = false })
+
+DupeToggle:OnChanged(function()
+    _G.DupeLoop = Options.RealDupe.Value
+    task.spawn(function()
+        while _G.DupeLoop do
+            -- Gửi 20 lệnh cùng lúc để làm ngộp Server (Race Condition)
+            for i = 1, 20 do
+                task.spawn(function()
+                    -- [!!!] DÁN MÃ COPY TỪ SIMPLESPY VÀO DƯỚI DÒNG NÀY [!!!]
+                    
+                    -- VÍ DỤ: game:GetService("ReplicatedStorage").Remotes.AddMoney:FireServer()
+                    
+                    -- [!!!] DÁN MÃ COPY TỪ SIMPLESPY VÀO TRÊN DÒNG NÀY [!!!]
+                end)
+            end
+            task.wait(0.2) -- Khoảng nghỉ an toàn để không bị Kick
+        end
+    end)
+end)
+
+-- ==========================================
+-- TAB NGƯỜI CHƠI: CÔNG CỤ DI CHUYỂN
+-- ==========================================
+Tabs.Player:AddSlider("SpeedSlider", {
+    Title = "Tốc độ chạy",
+    Default = 16, Min = 16, Max = 400, Rounding = 1,
+    Callback = function(Value)
+        if game.Players.LocalPlayer.Character then
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+        end
+    end
+})
+
+Tabs.Player:AddToggle("Noclip", {Title = "Noclip (Xuyên tường)", Default = false })
+task.spawn(function()
+    game:GetService("RunService").Stepped:Connect(function()
+        if Options.Noclip.Value and game.Players.LocalPlayer.Character then
+            for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                if v:IsA("BasePart") then v.CanCollide = false end
+            end
+        end
+    end)
+end)
+
+-- ==========================================
+-- TAB TIỆN ÍCH: CHỐNG VĂNG GAME
+-- ==========================================
+Tabs.Misc:AddButton({
+    Title = "Bật Anti-AFK",
+    Description = "Tránh bị disconnect khi đang treo máy Dupe",
+    Callback = function()
+        local vu = game:GetService("VirtualUser")
+        game.Players.LocalPlayer.Idled:Connect(function()
+            vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+            task.wait(1)
+            vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+        end)
+        Fluent:Notify({ Title = "Thành công", Content = "Đã chống AFK!", Duration = 5 })
+    end
+})
+
+Window:SelectTab(1)
+Fluent:Notify({ Title = "Gemini Hub", Content = "Đã tích hợp SimpleSpy. Hãy soi mã game ngay!", Duration = 5 })
