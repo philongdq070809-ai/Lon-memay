@@ -1,0 +1,146 @@
+-- ========================================================
+-- [ PHẦN INTRO MỞ ĐẦU ]
+-- ========================================================
+local function PlayIntro()
+    local loads = {
+        "[DOWNLOAD] :: ██░░░░░░░░░░░░    → 14%",
+        "[DOWNLOAD] :: ███░░░░░░░░░░░    → 27%",
+        "[DOWNLOAD] :: ████░░░░░░░░░░    → 41%",
+        "[DOWNLOAD] :: ██████░░░░░░░░    → 56%",
+        "[DOWNLOAD] :: ████████░░░░░░    → 63%",
+        "[DOWNLOAD] :: █████████░░░░░    → 71%",
+        "[DOWNLOAD] :: ███████████░░░    → 82%",
+        "[DOWNLOAD] :: ████████████░░    → 88%",
+        "[DOWNLOAD] :: ████████████░░    → 89%",
+        "[DOWNLOAD] :: ████████████░░    → 92%",
+        "[DOWNLOAD] :: ████████████░░    → 93%",
+        "[DOWNLOAD] :: ████████████░░    → 94%",
+        "[DOWNLOAD] :: █████████████░    → 95%",
+        "[DOWNLOAD] :: █████████████░    → 97%",
+        "[DOWNLOAD] :: █████████████░    → 98%",
+        "[DOWNLOAD] :: ██████████████    → 99%",
+        "[DOWNLOAD] :: ██████████████    → 100%"
+    }
+
+    print("🚀 Đang khởi động Chó Lét Út Hub...")
+    for i, msg in ipairs(loads) do
+        -- Hiển thị trong bảng console của Delta/Executor
+        print(msg) 
+        task.wait(0.1) -- Tốc độ chạy loading (giảm số này để chạy nhanh hơn)
+    end
+    print("✅ Tải dữ liệu hoàn tất!")
+end
+
+-- Chạy intro ngay lập tức
+PlayIntro()
+
+-- ========================================================
+-- [ CẤU HÌNH HỆ THỐNG ]
+-- ========================================================
+local FileName = "Rayfield_Key_ChoLetUt.txt"
+local CorrectKey = "chó lét út"
+
+-- 1. HÀM CHẠY SCRIPT CHÍNH (RAYFIELD)
+local function RunMainScript()
+    local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+    local Window = Rayfield:CreateWindow({
+       Name = "🚀 CHÓ LÉT ÚT HUB | DELTA 🚀",
+       LoadingTitle = "Đang khởi tạo hệ thống...",
+       LoadingSubtitle = "By Chó Lét Út",
+       ConfigurationSaving = { Enabled = true, FolderName = "ChoLetUtConfig", FileName = "MainConfig" },
+       KeySystem = false 
+    })
+
+    -- [ TAB TRANG CHỦ ]
+    local HomeTab = Window:CreateTab("Trang Chủ", 4483362458) 
+    HomeTab:CreateSection("🔥 TỔNG HỢP SIÊU TÍNH NĂNG")
+    HomeTab:CreateButton({Name = "Nhân Đôi Tool Client ⚔️", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/7F6Wk5qV/raw", true))() end) end})
+    HomeTab:CreateButton({Name = "Tốc Biến ⚡", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/2OEC9SvA/raw", true))() end) end})
+    HomeTab:CreateButton({Name = "Xuyên Tường 🧱", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/Wr5US7vh/raw", true))() end) end})
+    HomeTab:CreateButton({Name = "Tăng Tầm Xa Client 📏", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/fGBgPLHu/raw", true))() end) end})
+    HomeTab:CreateButton({Name = "Đi Trên Không v2 🌌", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/JK1fZSRf/raw", true))() end) end})
+    HomeTab:CreateButton({Name = "Nhảy Vô Hạn ☁️", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/EBy2hp0a/raw", true))() end) end})
+    HomeTab:CreateButton({Name = "Nhảy Cao 🚀", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/1ltBn9nO/raw", true))() end) end})
+    HomeTab:CreateButton({Name = "Tốc Độ ⚡", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/MuRMXXRN/raw", true))() end) end})
+    HomeTab:CreateButton({Name = "Bay ✈️", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/2h4uOI4u/raw", true))() end) end})
+    HomeTab:CreateButton({Name = "Tàng Hình 👻", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/SSptTzdf/raw", true))() end) end})
+    HomeTab:CreateButton({Name = "God Mode 🛡️", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/Ac24jXYy/raw", true))() end) end})
+    HomeTab:CreateButton({Name = "Nhìn Trong Bóng Tối 💡", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/pMYszXDv/raw", true))() end) end})
+    HomeTab:CreateButton({Name = "Tua Ngược Thế Giới ⏳", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/hWw2uzeh/raw", true))() end) end})
+
+    -- [ TAB NGƯỜI CHƠI ]
+    local PlayerTab = Window:CreateTab("Người Chơi", 4483362458)
+    PlayerTab:CreateSection("👤 TƯƠNG TÁC & CHIẾN ĐẤU")
+    PlayerTab:CreateButton({Name = "Sao Chép Avatar 🎭", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/gCgBJTyV/raw", true))() end) end})
+    PlayerTab:CreateButton({Name = "Né Người Chơi 🛡️", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/1J0uL7d0/raw", true))() end) end})
+    PlayerTab:CreateButton({Name = "Định Vị Người Chơi (ESP) 📍", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/FQptEskO/raw", true))() end) end})
+    PlayerTab:CreateButton({Name = "Dịch Chuyển Đến Người Gần Nhất ⚡", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/NWN9UOkl/raw", true))() end) end})
+    PlayerTab:CreateButton({Name = "Dịch Chuyển Đến Người Chơi 🌀", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/3VZBJb8g/raw", true))() end) end})
+    PlayerTab:CreateButton({Name = "Theo Dõi Người Chơi 👁️", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/f4vyHRoJ/raw", true))() end) end})
+    PlayerTab:CreateButton({Name = "Aimbot Người Chơi 🎯", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/Hugq6ZK3/raw", true))() end) end})
+    PlayerTab:CreateButton({Name = "Hitbox Người Chơi 🥊", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/ocimV5GE/raw", true))() end) end})
+
+    -- [ TAB THẾ GIỚI ]
+    local WorldTab = Window:CreateTab("Thế Giới", 4483362458)
+    WorldTab:CreateSection("🌍 TÁC ĐỘNG THẾ GIỚI")
+    WorldTab:CreateButton({Name = "X-ray Client 💎", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/CuXfW9Zc/raw", true))() end) end})
+    WorldTab:CreateButton({Name = "Xóa Sương Mù 🌫️", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/5y2Hrxbb/raw", true))() end) end})
+
+    -- [ TAB BẦU TRỜI ]
+    local SkyTab = Window:CreateTab("Bầu Trời", 4483362458) 
+    SkyTab:CreateSection("🌌 MÀU SẮC KHÔNG GIAN")
+    SkyTab:CreateButton({Name = "666 Client 💀", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/kFtSMsc1/raw", true))() end) end})
+    SkyTab:CreateButton({Name = "Xanh Lá Client 🍏", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/g3uAuzEH/raw", true))() end) end})
+    SkyTab:CreateButton({Name = "Xanh Dương Client 🔵", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/elWZWTGL/raw", true))() end) end})
+    SkyTab:CreateButton({Name = "Vàng Client 💛", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/mv4o8DId/raw", true))() end) end})
+    SkyTab:CreateButton({Name = "Trắng Client ⚪", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/s0StO4bS/raw", true))() end) end})
+    SkyTab:CreateButton({Name = "Cam Client 🍊", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/cefncB0x/raw", true))() end) end})
+    SkyTab:CreateButton({Name = "Đỏ Client 🔴", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/1iRzA0hr/raw", true))() end) end})
+    SkyTab:CreateButton({Name = "Tím Bầu Trời 🍇", Callback = function() pcall(function() loadstring(game:HttpGet("https://pastefy.app/XnZVP6W1/raw", true))() end) end})
+
+    -- [ TAB HỆ THỐNG ]
+    local SettingsTab = Window:CreateTab("Hệ Thống", 4483362458)
+    SettingsTab:CreateButton({
+        Name = "Xóa Key Đã Lưu",
+        Callback = function()
+            if isfile(FileName) then delfile(FileName) end
+            Rayfield:Notify({Title = "Hệ Thống", Content = "Đã reset key!", Duration = 3})
+        end,
+    })
+end
+
+-- 2. LOGIC KIỂM TRA KEY
+if isfile(FileName) then if readfile(FileName) == CorrectKey then RunMainScript() return end end
+local KeyGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextBox = Instance.new("TextBox")
+local Submit = Instance.new("TextButton")
+KeyGui.Name = "ChoLetUtKeySystem"
+KeyGui.Parent = game.CoreGui
+Frame.Parent = KeyGui
+Frame.Size = UDim2.new(0, 300, 0, 160)
+Frame.Position = UDim2.new(0.5, -150, 0.5, -80)
+Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+Frame.Draggable = true
+Frame.Active = true
+TextBox.Parent = Frame
+TextBox.Size = UDim2.new(0.8, 0, 0, 40)
+TextBox.Position = UDim2.new(0.1, 0, 0.2, 0)
+TextBox.PlaceholderText = "Key: chó lét út"
+Submit.Parent = Frame
+Submit.Size = UDim2.new(0.8, 0, 0, 40)
+Submit.Position = UDim2.new(0.1, 0, 0.6, 0)
+Submit.Text = "XÁC NHẬN"
+Submit.BackgroundColor3 = Color3.fromRGB(0, 120, 215)
+Submit.TextColor3 = Color3.new(1,1,1)
+Submit.MouseButton1Click:Connect(function()
+    if TextBox.Text == CorrectKey then
+        writefile(FileName, TextBox.Text)
+        KeyGui:Destroy()
+        RunMainScript()
+    else
+        TextBox.Text = ""
+        TextBox.PlaceholderText = "Sai Key rồi bạn ơi!"
+    end
+end)
