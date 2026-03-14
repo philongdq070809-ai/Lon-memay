@@ -1,0 +1,107 @@
+-- FULL SPEED GUI (SAVE SPEED AFTER RESET)
+
+local player = game.Players.LocalPlayer
+local savedSpeed = 99
+local enabled = true
+
+local function applySpeed(character)
+    local humanoid = character:WaitForChild("Humanoid")
+    if enabled then
+        humanoid.WalkSpeed = savedSpeed
+    else
+        humanoid.WalkSpeed = 16
+    end
+end
+
+-- Khi nhân vật respawn
+player.CharacterAdded:Connect(function(character)
+    applySpeed(character)
+end)
+
+-- GUI
+local gui = Instance.new("ScreenGui")
+gui.Name = "GấuSpeedGUI"
+gui.Parent = game.CoreGui
+
+local frame = Instance.new("Frame")
+frame.Parent = gui
+frame.Size = UDim2.new(0,250,0,150)
+frame.Position = UDim2.new(0.4,0,0.3,0)
+frame.BackgroundColor3 = Color3.fromRGB(30,30,30)
+frame.BorderSizePixel = 0
+
+-- Title
+local title = Instance.new("TextLabel")
+title.Parent = frame
+title.Size = UDim2.new(1,0,0,30)
+title.BackgroundTransparency = 1
+title.Text = "GấuSpeedGUI"
+title.TextColor3 = Color3.fromRGB(255,255,0)
+title.TextScaled = true
+
+-- Close button
+local close = Instance.new("TextButton")
+close.Parent = frame
+close.Size = UDim2.new(0,30,0,30)
+close.Position = UDim2.new(1,-30,0,0)
+close.Text = "X"
+close.BackgroundColor3 = Color3.fromRGB(170,0,0)
+close.TextColor3 = Color3.fromRGB(255,255,255)
+
+-- Speed input
+local box = Instance.new("TextBox")
+box.Parent = frame
+box.Size = UDim2.new(0,200,0,40)
+box.Position = UDim2.new(0.1,0,0.3,0)
+box.BackgroundColor3 = Color3.fromRGB(50,50,50)
+box.TextColor3 = Color3.fromRGB(255,255,255)
+box.Text = tostring(savedSpeed)
+box.TextScaled = true
+
+-- Toggle button
+local button = Instance.new("TextButton")
+button.Parent = frame
+button.Size = UDim2.new(0,200,0,40)
+button.Position = UDim2.new(0.1,0,0.65,0)
+button.BackgroundColor3 = Color3.fromRGB(70,70,70)
+button.TextColor3 = Color3.fromRGB(255,255,255)
+button.TextScaled = true
+button.Text = "Speed: Bật"
+
+-- Toggle speed
+button.MouseButton1Click:Connect(function()
+    enabled = not enabled
+    
+    if enabled then
+        savedSpeed = tonumber(box.Text) or 16
+        savedSpeed = math.clamp(savedSpeed,1,10000)
+        
+        if player.Character then
+            local humanoid = player.Character:FindFirstChild("Humanoid")
+            if humanoid then
+                humanoid.WalkSpeed = savedSpeed
+            end
+        end
+        
+        button.Text = "Speed: Bật"
+    else
+        if player.Character then
+            local humanoid = player.Character:FindFirstChild("Humanoid")
+            if humanoid then
+                humanoid.WalkSpeed = 16
+            end
+        end
+        
+        button.Text = "Speed: Tắt"
+    end
+end)
+
+-- Close GUI
+close.MouseButton1Click:Connect(function()
+    gui:Destroy()
+end)
+
+-- Áp dụng speed nếu nhân vật đã tồn tại
+if player.Character then
+    applySpeed(player.Character)
+end
